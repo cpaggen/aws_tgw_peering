@@ -581,6 +581,35 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "west-propag" {
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
 }
 
+resource "aws_ec2_transit_gateway_route" "central-to-10_99" {
+  destination_cidr_block         = "10.99.99.0/24"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.central-west.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.central-rt.id
+  depends_on = [aws_ec2_transit_gateway_peering_attachment.central-west]
+}
+
+resource "aws_ec2_transit_gateway_route" "central-to-10_20" {
+  destination_cidr_block         = "10.20.10.0/24"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.central-hub.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.central-rt.id
+  depends_on = [aws_ec2_transit_gateway_vpc_attachment.central-hub]
+}
+
+resource "aws_ec2_transit_gateway_route" "central-to-10_30" {
+  destination_cidr_block         = "10.30.10.0/24"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.central-hub.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.central-rt.id
+  depends_on = [aws_ec2_transit_gateway_vpc_attachment.central-hub]
+}
+
+resource "aws_ec2_transit_gateway_route" "west-to-10_00" {
+  provider = aws.eu-west-1
+  destination_cidr_block         = "10.0.0.0/8"
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.central-west.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
+  depends_on = [aws_ec2_transit_gateway_peering_attachment.central-west]
+}
+
 ##############################################
 # OUTPUTS
 ##############################################
