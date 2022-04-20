@@ -24,6 +24,9 @@ One route table is created per TGW with propagation enabled.
 * the remote VPC points to the local (west) TGW for 10.0.0.0/8
 * the 'hub' VPC points to the local (central) TGW for 10.99.99.0/24
 
+## Diagram
+![AWS topology diagram](http://github.com/cpaggen/aws_tgw_peering/diagram.png)
+
 ## Getting Started
 
 ### Dependencies
