@@ -48,3 +48,4 @@ You can of course copy the keypair manually to both regions.
 
 None! The code uses locals only.
 
+[![Lint](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml/badge.svg)](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml)
