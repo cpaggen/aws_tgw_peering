@@ -1,0 +1,2 @@
+- name: Setup TFLint
+  uses: terraform-linters/setup-tflint@v2.0.0
