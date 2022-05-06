@@ -1,3 +1,4 @@
+{::options parse_block_html="true" /}
 [![Lint](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml/badge.svg)](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml)
 
 # VPC Peering + TGW Peering Project
