@@ -4,7 +4,7 @@
 
 Terraform code that creates a reasonably complex topology intermixing VPC peering, TGW routing, TGW peering, internet access.
 
-***This plan deploys items on AWS that are *not* free of charge***
+***Warning: this plan deploys items on AWS that are *not* free of charge***
 
 ## Description
 
