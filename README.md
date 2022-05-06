@@ -1,3 +1,5 @@
+[![Lint](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml/badge.svg)](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml)
+
 # VPC Peering + TGW Peering Project
 
 Terraform code that creates a reasonably complex topology intermixing VPC peering, TGW routing, TGW peering, internet access.
@@ -47,5 +49,3 @@ You can of course copy the keypair manually to both regions.
 ### Variables
 
 None! The code uses locals only.
-
-[![Lint](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml/badge.svg)](https://github.com/cpaggen/aws_tgw_peering/actions/workflows/blank.yml)
