@@ -14,7 +14,7 @@ terraform {
 provider "aws" {
   region     = "eu-central-1"
   alias      = "eu-central-1"
-  access_key = ""
+  access_key = ""  # store you credentials under ~/.aws/credentials
   secret_key = ""
 }
 
