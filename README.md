@@ -3,7 +3,16 @@
 # VPC Peering + TGW Peering Project
 
 Terraform code that creates a reasonably complex topology intermixing VPC peering, TGW routing, TGW peering, internet access.
-!! This plan deploys items on AWS that are *not* free of charge
+
+<div class="panel panel-warning">
+**Warning**
+{: .panel-heading}
+<div class="panel-body">
+
+This plan deploys items on AWS that are *not* free of charge
+
+</div>
+</div>
 
 ## Description
 
