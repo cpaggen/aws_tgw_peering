@@ -102,16 +102,6 @@ locals {
       dest = "10.30.10.0/24" 
       gw = aws_vpc_peering_connection.eastToWest.id
       rt = 2
-    },
-    {
-      dest = "10.99.99.0/24"
-      gw = aws_vpc_peering_connection.westToHub.id
-      rt = 2
-    },
-    {
-      dest = "10.99.99.0/24"
-      gw = aws_vpc_peering_connection.eastToHub.id
-      rt = 1
     }
   ]
   tags = {
@@ -544,7 +534,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "west-remote" {
 }
 
 ##############################################
-# Transit Gateway Routes
+# Transit Gateway Route Tables
 ##############################################
 
 
@@ -559,16 +549,9 @@ resource "aws_ec2_transit_gateway_route_table" "west-rt" {
   depends_on = [aws_ec2_transit_gateway.west-tgw]
 }
 
-resource "aws_ec2_transit_gateway_route_table_association" "central-rtassoc" {
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.central-hub.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.central-rt.id
-}
-
-resource "aws_ec2_transit_gateway_route_table_association" "west-rtassoc" {
-  provider = aws.eu-west-1
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.west-remote.id
-  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
-}
+##############################################
+# Transit Gateway Route Table Propagation 
+##############################################
 
 resource "aws_ec2_transit_gateway_route_table_propagation" "central-propag" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.central-hub.id
@@ -576,6 +559,22 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "central-propag" {
 }
 
 resource "aws_ec2_transit_gateway_route_table_propagation" "west-propag" {
+  provider = aws.eu-west-1
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.west-remote.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
+}
+
+
+##############################################
+# Transit Gateway Route Table Entries 
+##############################################
+
+resource "aws_ec2_transit_gateway_route_table_association" "central-rtassoc" {
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.central-hub.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.central-rt.id
+}
+
+resource "aws_ec2_transit_gateway_route_table_association" "west-rtassoc" {
   provider = aws.eu-west-1
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.west-remote.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
@@ -608,6 +607,21 @@ resource "aws_ec2_transit_gateway_route" "west-to-10_00" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.central-west.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
   depends_on = [aws_ec2_transit_gateway_peering_attachment.central-west]
+}
+
+##############################################
+# Transit Gateway Peering Route Table Assoc
+##############################################
+
+resource "aws_ec2_transit_gateway_route_table_association" "peering-central-rtassoc" {
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.central-west.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.central-rt.id
+}
+
+resource "aws_ec2_transit_gateway_route_table_association" "peering-west-rtassoc" {
+  provider = aws.eu-west-1
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.central-west.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.west-rt.id
 }
 
 ##############################################
